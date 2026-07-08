@@ -1,0 +1,262 @@
+.page {
+  margin: 0 auto;
+  background: var(--off-white);
+  min-height: 100vh;
+  overflow: hidden;
+  position:relative;
+}
+
+/**Navbar**/
+.navbar{
+  position:absolute;
+  top:16px;
+  left: 16px;
+  right: 16px;
+  z-index: 20;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap: 10px;
+  padding: 0 16px;
+}
+
+.navbar-pill {
+  background: var(--navy-900);
+  border-radius: 30px;
+  display: flex;
+  gap: 6px;
+  padding: 6px;
+}
+
+.nav-link {
+  padding: 8px 18px;
+  border-radius: 24px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  transition: background 0.2s, color 0.2s;
+}
+
+.nav-link-active {
+  background: var(--blue-accent);
+  color: var(--white);
+}
+
+.navbar-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  
+}
+
+/* ---------- Hero ---------- */
+.hero {
+  position: relative;
+  min-height: 320px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 24px;
+  overflow: hidden;
+  margin:0;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(16, 28, 58, 0.55) 0%, rgba(16, 28, 58, 0.85) 100%);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  color: var(--white);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hero-content h1 {
+  font-size: 1.7rem;
+  line-height: 1.25;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.hero-content p {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-bottom: 20px;
+  max-width: 320px;
+}
+
+.hero-bg{
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity:0.4;
+}
+
+.btn {
+  border-radius: 8px;
+  padding: 12px 22px;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.btn-primary {
+  background: var(--blue-accent);
+  color: var(--white);
+}
+
+.btn-secondary {
+  background: var(--white);
+  color: var(--navy-900);
+}
+
+/* ---------- Features ---------- */
+.features {
+  background: var(--white);
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.section-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: var(--navy-900);
+  margin-bottom: 24px;
+}
+
+.section-title-light {
+  color: var(--white);
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.feature-card {
+  background: var(--navy-800);
+  border-radius: 12px;
+  padding: 18px 10px;
+  color: var(--white);
+  text-align: left;
+  min-height:220px;
+  width:379px;
+}
+
+.feature-icon {
+  margin-bottom: 12px;
+  justify-content: center;
+  display: flex;
+}
+
+.feature-card h3 {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  line-height: 1.2;
+  text-align: center;
+}
+
+.feature-card p {
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+/* ---------- How It Works ---------- */
+.how-it-works {
+  background: var(--blue-panel);
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.steps-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.step-row {
+  background: var(--white);
+  border-radius: 10px;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  text-align: left;
+}
+
+.step-number {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--navy-900);
+  color: var(--white);
+  font-size: 0.8rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.step-label {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--navy-900);
+}
+
+/* ---------- CTA ---------- */
+.cta {
+  background: var(--navy-700);
+  padding: 44px 24px;
+  text-align: center;
+  color: var(--white);
+}
+
+.cta h2 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 14px;
+}
+
+.cta p {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-bottom: 22px;
+}
+
+/* ---------- Footer ---------- */
+.footer {
+  background: var(--navy-900);
+  padding: 18px 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.footer-diamond {
+  color: #e879b0;
+  font-size: 0.8rem;
+}
+
+.footer-text {
+  color: #e879b0;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
