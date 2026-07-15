@@ -1,0 +1,136 @@
+.login-page {
+  display: flex;
+  min-height: 100vh;
+  background: #ffffff;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* ---------- Left panel ---------- */
+.login-left {
+  flex: 1;
+  background: #144272;
+  border-right: 2px solid #b2daf8;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  text-align: center;
+  gap: 20px;
+}
+
+.login-logo {
+  opacity: 0.95;
+}
+
+.login-left h1 {
+  color: #ffffff;
+  font-size: 1.4rem;
+  font-weight: 700;
+  line-height: 1.35;
+  max-width: 280px;
+}
+
+/* ---------- Right panel ---------- */
+.login-right {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 24px;
+}
+
+.login-card {
+  background: #144272;
+  border-radius: 16px;
+  padding: 36px 32px;
+  width: 100%;
+  max-width: 320px;
+  color: #ffffff;
+}
+
+.login-card h2 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.login-subtitle {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.75);
+  text-align: center;
+  line-height: 1.5;
+  margin-bottom: 24px;
+}
+
+.login-label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+  margin-top: 16px;
+}
+
+.login-input-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 10px 14px;
+}
+
+.login-input-wrap input {
+  border: none;
+  outline: none;
+  flex: 1;
+  font-size: 0.9rem;
+  color: #101c3a;
+  background: transparent;
+  font-family: inherit;
+}
+
+.login-input-wrap input::placeholder {
+  color: #8a96a8;
+}
+
+.login-error {
+  color: #ffd3d3;
+  font-size: 0.8rem;
+  margin-top: 14px;
+  text-align: center;
+}
+
+.login-btn {
+  width: 100%;
+  margin-top: 26px;
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  background: #ffffff;
+  color: #144272;
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.login-btn:hover {
+  opacity: 0.9;
+}
+
+.login-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ---------- Responsive: stack on small screens ---------- */
+@media (max-width: 700px) {
+  .login-page {
+    flex-direction: column;
+  }
+  .login-left {
+    padding: 30px 20px;
+  }
+}
