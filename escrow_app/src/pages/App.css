@@ -51,10 +51,37 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  padding: 0;
+  cursor: pointer;
+  border:none;
   
 }
 
-/* ---------- Hero ---------- */
+
+.navbar-dropdown {
+  position: absolute;
+  top: 50px;
+  background: var(--navy-900);
+  border-radius: 10px;
+  padding: 6px;
+  min-width: 120px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+  z-index: 30;
+}
+ 
+.navbar-dropdown-item {
+  display: block;
+  padding: 10px 14px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  color: var(--white);
+  text-align: left;
+}
+ 
+.navbar-dropdown-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+/* Hero */
 .hero {
   position: relative;
   min-height: 320px;
