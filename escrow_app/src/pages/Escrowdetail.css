@@ -1,0 +1,256 @@
+.ed-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #e2e7ed;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* ---------- Hero banner ---------- */
+.ed-hero {
+  position: relative;
+  padding: 28px 32px;
+  background: url('https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&w=1200&q=60') center/cover no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.ed-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.82);
+}
+
+.ed-hero-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  width: 100%;
+}
+
+.ed-hero-content h1 {
+  color: #0a2647;
+  font-size: 1.3rem;
+  font-weight: 800;
+  max-width: 420px;
+  margin-bottom: 8px;
+}
+
+.ed-hero-date {
+  color: #4a5568;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ed-hero-icon {
+  font-size: 0.9rem;
+}
+
+.ed-hero-status {
+  margin-left: 12px;
+  font-weight: 600;
+  color: #144272;
+}
+
+.ed-hero-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-align: left;
+  font-size: 0.85rem;
+  color: #0a2647;
+  font-weight: 700;
+}
+
+.ed-hero-stats p {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ed-hero-stat-note {
+  font-weight: 400;
+  color: #6b7a8f;
+  font-size: 0.75rem;
+}
+
+/* ---------- Main two-column layout ---------- */
+.ed-main {
+  flex: 1;
+  padding: 28px 32px 48px;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 24px;
+  max-width: 1000px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.ed-milestones-col h2,
+.ed-status-col h2 {
+  color: #0a2647;
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  margin-bottom: 14px;
+}
+
+/* ---------- Milestone cards ---------- */
+.ed-milestone-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+.ed-milestone-card {
+  position: relative;
+  background: #144272;
+  border: 2px solid transparent;
+  border-radius: 12px;
+  padding: 16px 44px 16px 16px;
+  text-align: left;
+  cursor: pointer;
+  color: #ffffff;
+}
+
+.ed-milestone-card-active {
+  border-color: #ffffff;
+}
+
+.ed-milestone-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.ed-milestone-title {
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.ed-milestone-amount {
+  background: #ffffff;
+  color: #144272;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 10px;
+  flex-shrink: 0;
+}
+
+.ed-milestone-desc {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.75);
+  line-height: 1.4;
+}
+
+.ed-milestone-icon {
+  position: absolute;
+  top: 16px;
+  right: 14px;
+}
+
+.ed-add-milestone-btn {
+  width: 100%;
+  background: #ffffff;
+  border: 1.5px solid #144272;
+  color: #144272;
+  border-radius: 8px;
+  padding: 10px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.ed-add-milestone-btn:hover {
+  background: #f0f4f9;
+}
+
+/* ---------- Status panel ---------- */
+.ed-status-card {
+  background: #144272;
+  border-radius: 12px;
+  padding: 20px;
+  color: #ffffff;
+}
+
+.ed-status-card h3 {
+  font-size: 1.1rem;
+  font-weight: 800;
+  margin-bottom: 16px;
+}
+
+.ed-status-checklist {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ed-status-checklist li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.8rem;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  padding: 8px 12px;
+}
+
+.ed-check {
+  color: #16a34a;
+  background: #ffffff;
+  border-radius: 4px;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+.ed-release-btn {
+  width: 100%;
+  background: #ffffff;
+  color: #0a2647;
+  border: none;
+  border-radius: 8px;
+  padding: 12px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.ed-release-btn:hover {
+  opacity: 0.9;
+}
+
+.ed-release-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 800px) {
+  .ed-main {
+    grid-template-columns: 1fr;
+  }
+  .ed-hero-content {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

@@ -3,6 +3,8 @@ import Home from './pages/Home'
 import Login from './pages/Login'
 import Escrows from './pages/Escrow'
 import CreateEscrow from './pages/CreateEscrow'
+import Dashboard from './pages/Dashboard'
+import EscrowDetail from './pages/Escrowdetail'
 
 function LoginRoute() {
   const navigate = useNavigate()
@@ -22,6 +24,9 @@ function App() {
         <Route path="/login" element={<LoginRoute />} />
         <Route path="/escrows" element={<Escrows />} />
         <Route path="/escrows/create" element={<CreateEscrowRoute />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/escrows/:id" element={<EscrowDetail />} />
+
         {/* Unknown URLs fall back to the homepage */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
