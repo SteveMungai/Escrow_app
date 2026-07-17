@@ -1,13 +1,19 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 from flask_bcrypt import Bcrypt
+from flask_sqlalchemy import SQLAlchemy
 
 from config import Config
-from models import db, User, Project, Milestone, Freelancer, Reviews, Transaction,Escrow
+from models import db, User, Project, Milestone, Freelancer, Review, Transaction,Escrow
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
 app = Flask(__name__)
 bcrypt = Bcrypt(app)
 CORS(app)
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
+
 
 CORS(app)  # allows the Vite dev server (localhost:5173) to call this API
 db.init_app(app)
@@ -129,7 +135,7 @@ def create_freelancer():
 #Review routes
 @app.route("/api/reviews", methods=["GET"])
 def list_reviews():
-    reviews = Reviews.query.all()
+    reviews = Review.query.all()
     return jsonify([r.to_dict() for r in reviews])
 
 @app.route("/api/reviews", methods=["POST"])

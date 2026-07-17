@@ -1,0 +1,276 @@
+.dashboard-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+.dashboard-main {
+  flex: 1;
+  padding: 28px 24px 48px;
+  max-width: 1000px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+}
+
+.dashboard-col {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+/* ---------- Header ---------- */
+.dashboard-header h1 {
+  color: #0a2647;
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+
+.dashboard-welcome {
+  color: #5c6b80;
+  font-size: 0.85rem;
+  margin-bottom: 10px;
+}
+
+.dashboard-stars {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 16px;
+}
+
+.dashboard-header-actions {
+  display: flex;
+  gap: 12px;
+}
+
+/* ---------- Shared buttons ---------- */
+.dash-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: 20px;
+  padding: 9px 18px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1.5px solid #144272;
+  transition: opacity 0.15s;
+}
+
+.dash-btn:hover {
+  opacity: 0.85;
+}
+
+.dash-btn-filled {
+  background: #144272;
+  color: #ffffff;
+}
+
+.dash-btn-outline {
+  background: #ffffff;
+  color: #144272;
+}
+
+.dash-btn-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.25);
+  font-size: 0.75rem;
+  line-height: 1;
+}
+
+/* ---------- Section headings ---------- */
+.dashboard-section h2 {
+  color: #0a2647;
+  font-size: 1.1rem;
+  font-weight: 800;
+  margin-bottom: 14px;
+}
+
+.dashboard-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+/* ---------- Rows (Active Escrows — navy) ---------- */
+.dash-row {
+  background: #144272;
+  border-radius: 10px;
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.dash-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.dash-row-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.dash-row-title {
+  color: #ffffff;
+  font-size: 0.8rem;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dash-row-sub {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.7rem;
+}
+
+.dash-row-right {
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.dash-row-amount {
+  color: #ffffff;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.dash-row-amount-label {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.62rem;
+}
+
+.dash-badge {
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 12px;
+  color: #ffffff;
+  flex-shrink: 0;
+}
+
+.dash-badge-pending {
+  background: #f59e0b;
+}
+
+.dash-badge-progress {
+  background: #3b82f6;
+}
+
+.dash-badge-complete {
+  background: #16a34a;
+}
+
+/* ---------- Rows (Transaction History — light) ---------- */
+.dash-row-light {
+  background: #ffffff;
+  border: 1.5px solid #dbe4ee;
+}
+
+.dash-avatar-dark {
+  background: #144272;
+}
+
+.dash-row-title-dark {
+  color: #0a2647;
+}
+
+.dash-row-sub-dark {
+  color: #5c6b80;
+}
+
+.dash-row-amount-dark {
+  color: #0a2647;
+}
+
+.dash-row-amount-label-dark {
+  color: #8a96a8;
+}
+
+/* ---------- View all buttons ---------- */
+.dash-view-all {
+  width: 100%;
+  background: #ffffff;
+  color: #144272;
+  border: 1.5px solid #144272;
+  border-radius: 20px;
+  padding: 9px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.dash-view-all:hover {
+  background: #f0f4f9;
+}
+
+/* ---------- Wallet card ---------- */
+.dashboard-wallet {
+  background: #ffffff;
+  border: 1.5px solid #dbe4ee;
+  border-radius: 14px;
+  padding: 20px;
+}
+
+.wallet-icon {
+  font-size: 1.2rem;
+}
+
+.dashboard-wallet h3 {
+  color: #0a2647;
+  font-size: 1rem;
+  font-weight: 800;
+  margin: 6px 0 6px;
+}
+
+.wallet-sub {
+  color: #5c6b80;
+  font-size: 0.75rem;
+  margin-bottom: 14px;
+}
+
+.wallet-label {
+  color: #8a96a8;
+  font-size: 0.7rem;
+}
+
+.wallet-balance {
+  color: #0a2647;
+  font-size: 1.4rem;
+  font-weight: 800;
+  margin-bottom: 14px;
+}
+
+.wallet-topup-btn {
+  width: 100%;
+  justify-content: center;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 800px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+}

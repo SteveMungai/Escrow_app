@@ -84,7 +84,7 @@ class Review(db.Model):
     project_id=db.Column(db.Integer,db.ForeignKey("Projects.project_id"),nullable=False)
     rating=db.Column(db.Float,default=0.0)
     review_date=db.Column(db.DateTime, default=datetime.utcnow)
-    comment=db.Column(db.string(500),nullable=True)
+    comment=db.Column(db.String(500),nullable=True)
 
     def to_dict(self):
         return {

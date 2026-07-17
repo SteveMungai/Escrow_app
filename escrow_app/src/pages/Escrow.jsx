@@ -3,11 +3,12 @@ import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import './Escrow.css'
 import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 //Placeholder values
 
 const MOCK_ESCROWS = [
-  { id: 1, title: 'Instagram Ad Campaign Setup', client: 'Nicholas Ali' },
+  { id: 1, title: 'Social Media Management for Alpha Industries.Co', client: 'Rick Olweny' },
   { id: 2, title: 'Advertisement Creation', client: 'Tim Jackson' },
   { id: 3, title: 'LinkedIn Profile Management', client: 'Abdul Abdala' },
 ]
@@ -32,6 +33,7 @@ function ArrowRightIcon() {
 function Escrows() {
   const [escrows, setEscrows] = useState(MOCK_ESCROWS)
   const [loading, setLoading] = useState(true)
+  const navigate = useNavigate()
 
   useEffect(() => {
     fetch('/api/projects')
@@ -54,7 +56,7 @@ function Escrows() {
   }, [])
 
   const handleView = (id) => {
-    console.log('view escrow', id)
+    navigate(`/escrows/${id}`)
   }
 
     const handleCreate = () => {
