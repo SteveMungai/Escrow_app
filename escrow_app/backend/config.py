@@ -7,7 +7,6 @@ load_dotenv()
 class Config:
     """Base config — shared by all environments."""
 
-    # --- PostgreSQL / pgAdmin 4 connection (set these in a .env file) ---
     DB_USER = os.getenv("DB_USER", "postgres")
     DB_PASSWORD = os.getenv("DB_PASSWORD", "postgres")
     DB_HOST = os.getenv("DB_HOST", "localhost")
@@ -15,7 +14,7 @@ class Config:
     DB_NAME = os.getenv("DB_NAME", "escrow_app")
 
     SQLALCHEMY_DATABASE_URI = (
-        f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+        f"postgresql+psycopg://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
     )
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_ENGINE_OPTIONS = {
@@ -40,7 +39,7 @@ class TestingConfig(Config):
     TESTING = True
     DB_NAME = os.getenv("TEST_DB_NAME", "escrow_app_test")
     SQLALCHEMY_DATABASE_URI = (
-        f"postgresql://{Config.DB_USER}:{Config.DB_PASSWORD}@{Config.DB_HOST}:"
+        f"postgresql+psycopg://{Config.DB_USER}:{Config.DB_PASSWORD}@{Config.DB_HOST}:"
         f"{Config.DB_PORT}/{DB_NAME}"
     )
 
@@ -72,7 +71,6 @@ config_by_name = {
 
 
 def get_config():
-    """Reads FLASK_ENV from .env (defaults to development) and returns the matching config class."""
     env = os.getenv("FLASK_ENV", "development")
     config_class = config_by_name.get(env, DevelopmentConfig)
 
