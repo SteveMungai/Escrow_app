@@ -134,3 +134,26 @@
     padding: 30px 20px;
   }
 }
+
+/* ---------- Login-switch ---------- */
+.login-switch {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.login-switch-link {
+  background: none;
+  border: none;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 0.8rem;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0;
+}
+
+.login-switch-link:hover {
+  opacity: 0.85;
+}

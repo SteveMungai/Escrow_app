@@ -1,4 +1,7 @@
+import {useNavigate} from "react-router-dom"
+
 function CTA(){
+    const navigate = useNavigate()
     return(
     <section className="cta">
         <h2>Ready to Work with Confidence?</h2>
@@ -8,8 +11,9 @@ function CTA(){
             offering services, our platform helps ensure every transaction is protected
             from start to finish.
         </p>
-        <button className="btn btn-secondary">Create an account</button>
-
+        <button className="btn btn-secondary" onClick={() => navigate('/login?mode=signup')}>
+            Create an account
+        </button>
     </section>
 )
 }

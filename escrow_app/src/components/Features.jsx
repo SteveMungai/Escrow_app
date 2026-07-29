@@ -6,7 +6,7 @@ const featureList = [
       </svg>
     ),
     title: 'Escrow Protection',
-    description: 'Funds are securely held with work is completed and approved, reducing risk for both parties.'
+    description: 'Funds are securely held until work is completed and approved, reducing risk for both parties.'
   },
     {
     icon: (

@@ -4,6 +4,7 @@
   flex-direction: column;
   background: #ffffff;
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  padding-top: 80px;
 }
 
 .dashboard-main {

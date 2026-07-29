@@ -5,15 +5,25 @@ import Escrows from './pages/Escrow'
 import CreateEscrow from './pages/CreateEscrow'
 import Dashboard from './pages/Dashboard'
 import EscrowDetail from './pages/Escrowdetail'
+import { setAuth } from './auth'
+import WalletTopUp from './pages/Topup'
+import RateFreelancers from './pages/RateFreelancers'
 
 function LoginRoute() {
   const navigate = useNavigate()
-  return <Login onLogin={() => navigate('/escrows')} />
+  return (
+    <Login
+      onLogin={(data) => {
+        setAuth(data.token, data.user)
+        navigate('/escrows')
+      }}
+    />
+  )
 }
 
 function CreateEscrowRoute() {
   const navigate = useNavigate()
-  return <CreateEscrow onCreated={() => navigate('/escrows')} />
+  return <CreateEscrow onCreated={() => navigate('/escrows/${project.project_id}')} />
 }
 
 function App() {
@@ -26,7 +36,8 @@ function App() {
         <Route path="/escrows/create" element={<CreateEscrowRoute />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/escrows/:id" element={<EscrowDetail />} />
-
+        <Route path="/topup" element={<WalletTopUp isOpen={true} onClose={() => {}} userId={1} />} />
+        <Route path="/rate-freelancers" element={<RateFreelancers />} />
         {/* Unknown URLs fall back to the homepage */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

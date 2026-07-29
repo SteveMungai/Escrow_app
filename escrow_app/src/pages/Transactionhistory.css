@@ -1,0 +1,64 @@
+.th-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 38, 71, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 20px;
+}
+
+.th-panel {
+  background: #ffffff;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 460px;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.th-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 20px;
+  border-bottom: 1px solid #e2e7ed;
+}
+
+.th-header h2 {
+  color: #0a2647;
+  font-size: 1.1rem;
+  font-weight: 800;
+}
+
+.th-close {
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  line-height: 1;
+  color: #5c6b80;
+  cursor: pointer;
+  padding: 4px 8px;
+}
+
+.th-close:hover {
+  color: #0a2647;
+}
+
+.th-list {
+  padding: 16px 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.th-empty {
+  text-align: center;
+  color: #8a96a8;
+  font-size: 0.85rem;
+  padding: 20px;
+}

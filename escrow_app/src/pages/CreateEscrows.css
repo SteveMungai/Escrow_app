@@ -4,6 +4,7 @@
   flex-direction: column;
   background: #f5f7fb;
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  padding-top: 76px;
 }
 
 .create-escrow-main {
@@ -20,6 +21,7 @@
   width: 100%;
   max-width: 420px;
   color: #ffffff;
+
 }
 
 .create-escrow-card h1 {
