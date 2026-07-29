@@ -1,36 +1,73 @@
-import {useState} from 'react'
+import { useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import './Login.css'
 
+
 function Login({ onLogin }) {
-  const [username, setUsername] = useState('')
+  const [searchParams, setSearchParams] = useSearchParams()
+  const mode = searchParams.get('mode') === 'signup' ? 'signup' : 'login'
+  const isSignup = mode === 'signup'
+
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
+
+  const switchMode = (nextMode) => {
+    setError('')
+    setSearchParams(nextMode === 'signup' ? { mode: 'signup' } : {})
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     setError('')
 
-    if (!username || !password) {
-      setError('Please enter both your username and password.')
+    if (isSignup && (!name || !email || !password)) {
+      setError('Please fill in your name, email, and password.')
+      return
+    }
+    if (!isSignup && (!email || !password)) {
+      setError('Please enter both your email and password.')
       return
     }
 
     setLoading(true)
     try {
-      const res = await fetch('/api/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: username, password }),
-      })
+      if (isSignup) {
+        const res = await fetch('/api/users', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, email, password }),
+        })
 
-      if (!res.ok) {
-        const data = await res.json().catch(() => ({}))
-        throw new Error(data.error || 'Invalid username or password.')
+        if (!res.ok) {
+          const data = await res.json().catch(() => ({}))
+          throw new Error(data.error || 'Could not create your account.')
+        }
+
+        const data = await res.json()
+        // Persist the JWT + user so authenticated requests (e.g. wallet topup) can attach it later, and so the session survives a page refresh.
+        localStorage.setItem('token', data.token)
+        localStorage.setItem('user', JSON.stringify(data.user))
+        onLogin?.(data) // treat a successful signup as being logged in immediately
+      } else {
+        const res = await fetch('/api/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password }),
+        })
+
+        if (!res.ok) {
+          const data = await res.json().catch(() => ({}))
+          throw new Error(data.error || 'Invalid email or password.')
+        }
+
+        const data = await res.json()
+        localStorage.setItem('token', data.token)
+        localStorage.setItem('user', JSON.stringify(data.user))
+        onLogin?.(data)
       }
-
-           const data = await res.json()
-      onLogin?.(data)
     } catch (err) {
       setError(err.message)
     } finally {
@@ -38,43 +75,60 @@ function Login({ onLogin }) {
     }
   }
 
-   return (
+  return (
     <div className="login-page">
       <div className="login-left">
-        <svg className="login-logo" width="48" height="48" viewBox="0 0 24 24" fill="none">
-          <path
-            d="M12 2c-1.5 0-2.5 1-3 2-1.5-.5-3 0-3.5 1.5-.3.9 0 1.8.6 2.4-1 .6-1.6 1.7-1.4 2.9.2 1.3 1.3 2.2 2.6 2.2h.2c.1 1.8 1.6 3.2 3.4 3.2h2.2c1.8 0 3.3-1.4 3.4-3.2h.2c1.3 0 2.4-.9 2.6-2.2.2-1.2-.4-2.3-1.4-2.9.6-.6.9-1.5.6-2.4C19 5.5 17.5 5 16 5.5c-.5-1-1.5-2-3-2z"
-            stroke="#ffffff"
-            strokeWidth="1.4"
-            strokeLinejoin="round"
-          />
-          <circle cx="10" cy="9" r="0.6" fill="#ffffff" />
-          <circle cx="14" cy="9" r="0.6" fill="#ffffff" />
-        </svg>
+        <img
+          src="./animal.png"
+          alt="Animal illustration"
+          style={{ width: "90px", height: "90px", objectFit: 'cover', filter: 'brightness(0) invert(1)' }}
+        />
         <h1>Secure access, anytime, anywhere.</h1>
       </div>
 
       <div className="login-right">
         <div className="login-card">
-          <h2>Welcome back!</h2>
+          <h2>{isSignup ? 'Create your account' : 'Welcome back!'}</h2>
           <p className="login-subtitle">
-            Enter your credentials to access your escrow dashboard and manage your active projects.
+            {isSignup
+              ? 'Sign up to start creating and managing secure escrow projects.'
+              : 'Enter your credentials to access your escrow dashboard and manage your active projects.'}
           </p>
 
           <form onSubmit={handleSubmit} noValidate>
-            <label className="login-label" htmlFor="username">Username</label>
+            {isSignup && (
+              <>
+                <label className="login-label" htmlFor="name">Full name</label>
+                <div className="login-input-wrap">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                    <circle cx="12" cy="8" r="4" stroke="#144272" strokeWidth="2" />
+                    <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" stroke="#144272" strokeWidth="2" />
+                  </svg>
+                  <input
+                    id="name"
+                    type="text"
+                    placeholder="Jane Doe"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    autoComplete="name"
+                  />
+                </div>
+              </>
+            )}
+
+            <label className="login-label" htmlFor="email">Email</label>
             <div className="login-input-wrap">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                <circle cx="12" cy="8" r="4" stroke="#144272" strokeWidth="2" />
-                <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" stroke="#144272" strokeWidth="2" />
+                <rect x="3" y="5" width="18" height="14" rx="2" stroke="#144272" strokeWidth="2" />
+                <path d="M3 7l9 6 9-6" stroke="#144272" strokeWidth="2" />
               </svg>
               <input
-                id="username"
-                type="text"
+                id="email"
+                type="email"
                 placeholder="name@domain.com"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                autoComplete="username"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                autoComplete="email"
               />
             </div>
 
@@ -87,19 +141,35 @@ function Login({ onLogin }) {
               <input
                 id="password"
                 type="password"
-                placeholder="Enter your password"
+                placeholder={isSignup ? 'Create a password' : 'Enter your password'}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                autoComplete="current-password"
+                autoComplete={isSignup ? 'new-password' : 'current-password'}
               />
             </div>
 
             {error && <p className="login-error">{error}</p>}
 
             <button type="submit" className="login-btn" disabled={loading}>
-              {loading ? 'Signing in…' : 'Sign in'}
+              {loading ? (isSignup ? 'Creating account…' : 'Signing in…') : (isSignup ? 'Create account' : 'Sign in')}
             </button>
           </form>
+
+          <p className="login-switch">
+            {isSignup ? (
+              <>Already have an account?{' '}
+                <button type="button" className="login-switch-link" onClick={() => switchMode('login')}>
+                  Log in
+                </button>
+              </>
+            ) : (
+              <>Don't have an account?{' '}
+                <button type="button" className="login-switch-link" onClick={() => switchMode('signup')}>
+                  Sign up
+                </button>
+              </>
+            )}
+          </p>
         </div>
       </div>
     </div>

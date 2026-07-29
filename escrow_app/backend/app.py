@@ -115,8 +115,7 @@ def get_my_balance():
 
 
 # ---------- Clients ----------
-# A Client links a User to their client-side profile.  Project.client_id
-# points at Client.client_id, not directly at User.user_id.
+# A Client links a User to their client-side profile.  Project.client_id points at Client.client_id, not directly at User.user_id.
 @app.route("/api/clients", methods=["GET"])
 def list_clients():
     user_id = request.args.get("user_id", type=int)
@@ -203,7 +202,7 @@ def create_project():
     db.session.commit()
     return jsonify(project.to_dict()), 201
 
-
+#---Fund project route---
 @app.route("/api/projects/<int:project_id>/fund", methods=["POST"])
 @token_required
 def fund_project(project_id):
@@ -212,14 +211,48 @@ def fund_project(project_id):
     if missing:
         return jsonify({"error": f"Missing fields: {', '.join(missing)}"}), 400
 
+    try:
+        amount = float(data["amount"])
+    except (TypeError, ValueError):
+        return jsonify({"error": "amount must be a number"}), 400
+    if amount <= 0:
+        return jsonify({"error": "amount must be greater than zero"}), 400
+
     project = Project.query.get_or_404(project_id)
+    client = Client.query.get(project.client_id)
+    if not client:
+        return jsonify({"error": "This project has no associated client."}), 400
+    if client.user_id != g.current_user_id:
+        return jsonify({"error": "You can only fund your own projects."}), 403
+
+    user = User.query.get(client.user_id)
+    if user.balance is None:
+        user.balance = 0
+    if user.balance < amount:
+        return jsonify({"error": "Insufficient wallet balance."}), 400
+
+    user.balance -= amount
     project.status = "funded"
 
-    escrow = Escrow(project_id=project.project_id, amount_held=data["amount"])
+    escrow = Escrow(project_id=project.project_id, amount_held=amount)
     db.session.add(escrow)
-    db.session.commit()
-    return jsonify({"project": project.to_dict(), "escrow": escrow.to_dict()}), 200
+    db.session.flush()  # populate escrow.Escrow_id for the transaction below
 
+    transaction = Transaction(
+        Transaction_type="funding",
+        Escrow_id=escrow.Escrow_id,
+        user_id=user.user_id,
+        amount=amount,
+        status="completed",
+    )
+    db.session.add(transaction)
+
+    db.session.commit()
+    return jsonify({
+        "project": project.to_dict(),
+        "escrow": escrow.to_dict(),
+        "new_balance": user.balance,
+    }), 200
 
 @app.route("/api/projects/<int:project_id>/complete", methods=["POST"])
 @token_required
@@ -286,12 +319,14 @@ def delete_project(project_id):
 @app.route("/api/freelancers", methods=["GET"])
 def list_freelancers():
     name = request.args.get("name")
+    user_id = request.args.get("user_id", type=int)
     query = Freelancer.query
     if name:
         query = query.filter(Freelancer.freelancer_name.ilike(f"%{name}%"))
+    if user_id:
+        query = query.filter_by(user_id=user_id)
     freelancers = query.all()
     return jsonify([f.to_dict() for f in freelancers])
-
 
 @app.route("/api/freelancers", methods=["POST"])
 @token_required
@@ -319,9 +354,9 @@ def list_reviews():
     reviews = Review.query.all()
     return jsonify([r.to_dict() for r in reviews])
 
-
+#----------Post review for freelancer-derived from registered counterpart------
 @app.route("/api/reviews", methods=["POST"])
-@token_required
+@token_required    
 def create_review():
     data = request.get_json(silent=True) or {}
     missing = require_fields(data, ["reviewer_id", "reviewee_id", "project_id", "rating"])
@@ -337,6 +372,18 @@ def create_review():
     )
     db.session.add(review)
     db.session.commit()
+
+    freelancer = Freelancer.query.get(data["reviewee_id"])
+    if freelancer:
+        freelancer_reviews = Review.query.filter_by(Reviewee_id=freelancer.freelancer_id).all()
+        freelancer.rating = round(sum(r.rating for r in freelancer_reviews) / len(freelancer_reviews), 2)
+
+        user = User.query.get(freelancer.user_id)
+        if user:
+            user.rating = freelancer.rating
+
+        db.session.commit()
+
     return jsonify(review.to_dict()), 201
 
 
@@ -352,7 +399,7 @@ def get_escrow(escrow_id):
     escrow = Escrow.query.get_or_404(escrow_id)
     return jsonify(escrow.to_dict())
 
-
+#---Release funds to  freelancer account----
 @app.route("/api/escrows/<int:escrow_id>/release", methods=["POST"])
 @token_required
 def release_escrow(escrow_id):
@@ -362,10 +409,18 @@ def release_escrow(escrow_id):
         return jsonify({"error": f"Missing fields: {', '.join(missing)}"}), 400
 
     escrow = Escrow.query.get_or_404(escrow_id)
-    escrow.released_amount += data["amount"]
+    project = Project.query.get(escrow.project_id)
+    if not project:
+        return jsonify({"error": "Escrow has no associated project."}), 400
+
+    client = Client.query.get(project.client_id)
+    if not client or client.user_id != g.current_user_id:
+        return jsonify({"error": "You can only release funds on your own escrows."}), 403
+
+    amount = data["amount"]
+    escrow.released_amount += amount
     if escrow.released_amount >= escrow.amount_held:
         escrow.status = "completed"
-
 
     milestone = None
     milestone_id = data.get("milestone_id")
@@ -374,14 +429,23 @@ def release_escrow(escrow_id):
         if milestone:
             milestone.status = "released"
 
-    project = Project.query.get(escrow.project_id)
-    if project and escrow.released_amount >= escrow.amount_held:
+    if escrow.released_amount >= escrow.amount_held:
         project.status = "completed"
+
+    # ---- money leaves escrow, lands in the freelancer's wallet----
+    freelancer = Freelancer.query.get(project.freelancer_id) if project.freelancer_id else None
+    if freelancer:
+        freelancer_user = User.query.get(freelancer.user_id)
+        if freelancer_user:
+            if freelancer_user.balance is None:
+                freelancer_user.balance = 0
+            freelancer_user.balance += amount
 
     transaction = Transaction(
         Transaction_type="milestone_release",
         Escrow_id=escrow.Escrow_id,
-        amount=data["amount"],
+        user_id=freelancer.user_id if freelancer else None,
+        amount=amount,
         status="completed",
     )
     db.session.add(transaction)
@@ -392,6 +456,7 @@ def release_escrow(escrow_id):
         "milestone": milestone.to_dict() if milestone else None,
         "project": project.to_dict() if project else None,
     }), 200
+
 
 
 # ---------- Transactions ----------
@@ -602,6 +667,12 @@ def wallet_history(user_id):
         for t in transactions
     ])
 
+#-------Dashboard that pulls logged in user's current rating--------
+@app.route("/api/users/me", methods=["GET"])
+@token_required
+def get_me():
+    user = User.query.get_or_404(g.current_user_id)
+    return jsonify(user.to_dict())
 
 if __name__ == "__main__":
     with app.app_context():

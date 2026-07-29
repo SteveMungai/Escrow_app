@@ -10,8 +10,9 @@ class User(db.Model):
     email=db.Column(db.String(120),unique=True,nullable=False)
     created_at=db.Column(db.DateTime, default=datetime.utcnow)
     rating=db.Column(db.Float)
-    role=db.Column(db.String(50),default="user")
-    password_hash=db.Column(db.String(128),nullable=False)
+    role=db.Column(db.String(50),default="user",nullable=True)
+    password_hash=db.Column(db.String(255),nullable=False)
+    balance=db.Column(db.Float, default=0.0, nullable=False)
 
     def to_dict(self):
         return {
@@ -20,7 +21,8 @@ class User(db.Model):
             "email": self.email,
             "created_at": self.created_at,
             "rating": self.rating,
-            "role": self.role
+            "role": self.role,
+            "balance": self.balance
         }
 
 class Project(db.Model):
@@ -75,7 +77,7 @@ class Admin(db.Model):
             "user_id": self.user_id,
             "Permission_level": self.Permission_level
         }
-    
+
 class Review(db.Model):
     __tablename__="Reviews"
     Review_id=db.Column(db.Integer,primary_key=True)
@@ -100,8 +102,9 @@ class Review(db.Model):
 class Transaction(db.Model):
     __tablename__="Transaction"
     transaction_id=db.Column(db.Integer,primary_key=True)
-    Transaction_type=db.Column(db.String(50),nullable=False) # deposit, withdrawal, milestone_release   
-    Escrow_id=db.Column(db.Integer,db.ForeignKey("Escrow.Escrow_id"),nullable=False)
+    Transaction_type=db.Column(db.String(50),nullable=False) # deposit, withdrawal, milestone_release, topup
+    Escrow_id=db.Column(db.Integer,db.ForeignKey("Escrow.Escrow_id"),nullable=True)
+    user_id=db.Column(db.Integer,db.ForeignKey("users.user_id"),nullable=True)
     amount=db.Column(db.Float,nullable=False)
     transaction_date=db.Column(db.DateTime, default=datetime.utcnow)
     status=db.Column(db.String(30),default="pending") # pending, completed, failed
@@ -111,6 +114,7 @@ class Transaction(db.Model):
             "transaction_id": self.transaction_id,
             "Transaction_type": self.Transaction_type,
             "Escrow_id": self.Escrow_id,
+            "user_id": self.user_id,
             "amount": self.amount,
             "transaction_date": self.transaction_date,
             "status": self.status
@@ -134,6 +138,7 @@ class Escrow(db.Model):
             "status": self.status,
             "created_at": self.created_at
         }
+
 class Milestone(db.Model):
     __tablename__="Milestone"
     milestone_id=db.Column(db.Integer,primary_key=True)
@@ -160,6 +165,7 @@ class Client(db.Model):
     client_id=db.Column(db.Integer,primary_key=True)
     user_id=db.Column(db.Integer,db.ForeignKey("users.user_id"),nullable=False)
     company_name=db.Column(db.String(200),nullable=True)
+    company_website=db.Column(db.String(200),nullable=True)
     rating=db.Column(db.Float,default=0.0)
     verification_status=db.Column(db.String(30),default="unverified") # unverified, verified
 
@@ -172,7 +178,7 @@ class Client(db.Model):
             "rating": self.rating,
             "verification_status": self.verification_status
         }
-    
+
 class Deliverable(db.Model):
     __tablename__="Deliverable"
     deliverable_id=db.Column(db.Integer,primary_key=True)
@@ -190,5 +196,4 @@ class Deliverable(db.Model):
             "file_path": self.file_path,
             "submission_date": self.submission_date,
             "status": self.status
-            
         }
