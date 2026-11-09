@@ -4,7 +4,7 @@ import Footer from '../components/Footer'
 import './Dashboard.css'
 import { useNavigate } from 'react-router-dom'
 import WalletTopUp from './Topup'
-import TransactionHistory from './TransactionHistory'
+import TransactionHistory from './Transactionhistory'
 import AllEscrows from './AllEscrows'
 
 const STATUS_LABEL = {

@@ -27,7 +27,7 @@ const featureList = [
       </svg>
     ),
     title: 'Trust Score Verification',
-    description: 'Funds are securely stored and released based on milestone approval.'
+    description: "Every user's reputation backed by verified transaction history"
   }
 ]
 

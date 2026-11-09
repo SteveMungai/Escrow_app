@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import { authFetch } from '../auth'
-import './EscrowDetail.css'
+import './Escrowdetail.css'
 
 const STATUS_LABEL = {
   created: 'Pending',
