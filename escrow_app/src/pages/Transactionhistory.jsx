@@ -1,4 +1,4 @@
-import './TransactionHistory.css'
+import './Transactionhistory.css'
 
 function TRANSACTION_TITLE(type) {
   switch (type) {

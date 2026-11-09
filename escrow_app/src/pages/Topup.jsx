@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import { getToken } from "../auth";
 import Navbar from "../components/Navbar";
 import './Dashboard'
 
@@ -19,7 +20,7 @@ const WalletTopUp = ({ isOpen, onClose, userId, onSuccess }) => {
     try {
       setLoading(true);
 
-      const token = localStorage.getItem("token");
+      const token = getToken();
 
       if (!token) {
         alert("Your session has expired. Please log in again.");
@@ -28,7 +29,7 @@ const WalletTopUp = ({ isOpen, onClose, userId, onSuccess }) => {
       }
 
       const response = await axios.post(
-        "http://localhost:5000/api/wallet/topup",
+        "/api/wallet/topup",
         {
           user_id: userId,
           amount: Number(amount),

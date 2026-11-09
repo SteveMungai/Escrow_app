@@ -1,4 +1,4 @@
-import './TransactionHistory.css'
+import './Transactionhistory.css'
 
 const STATUS_LABEL = {
   pending: 'Pending',
